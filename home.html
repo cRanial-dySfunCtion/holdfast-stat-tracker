@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Home Page</h1>
+    <p>number of games played: {{ count }}</p>
+
+    <h1>Submit Information</h1>
+    <form method="POST">
+        <label for="role">Role:</label>
+        <input type="text" id="role" name="role" required><br><br>
+        
+        <label for="kills">Kills:</label>
+        <input type="number" id="kills" name="kills" required><br><br>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if updated %}
+        <h2>Database updated</h2>
+    {% endif %}
+
+</body>
+</html>
+
