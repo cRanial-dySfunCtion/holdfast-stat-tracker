@@ -23,7 +23,7 @@ def home():
             return "Missing form data", 400  # Returns an error message to the user
         
         print("updated")
-        return render_template('home.html', count=count, updated = True)
+        return render_template('home.html', count=count+1, updated = True)
         
     print("nothing")
     return render_template('home.html', count=count, updated = None)
