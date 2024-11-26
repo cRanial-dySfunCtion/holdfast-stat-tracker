@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, redirect, request
 from backend import *
+file_check()
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Set a secret key for session management
