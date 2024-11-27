@@ -28,17 +28,9 @@ def add_game_entry(role, kills):
 
 def file_check():
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    db_filepath = os.path.join(script_dir, database_name)
     os.chdir(script_dir)
 
-    cwd = os.getcwd()
-    print(f"Current working directory (cwd): {cwd}")
-    print(f"Expected database file path: {db_filepath}")
-    print(f"Script directory (where the Python file is located): {script_dir}")
-
-
-
-    if not os.path.exists(db_filepath):
+    if not os.path.exists(database_name):
         conn = sqlite3.connect(database_name)
         c = conn.cursor()
         c.execute("""CREATE TABLE games(
@@ -69,5 +61,3 @@ def file_check():
                 honor_ID INT, 
                 date text
                 )""")
-
-file_check()
