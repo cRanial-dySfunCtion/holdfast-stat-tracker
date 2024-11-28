@@ -1,6 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, request
 from backend import *
-import sqlite3
 file_check()
 
 app = Flask(__name__)
@@ -38,8 +37,8 @@ def home():
 def honors():
     all_honors_data = get_all_honors()
     earned_honors = get_earned_honors()
-    form=SimpleForm()
-    form.honor_ID.choices=get_honors_data()
+    form=honorSelectField()
+    form.honor_ID.choices=select_field_honor_data()
     if request.method == "POST":
         results = request.form
         add_honor(results["honor_ID"])
@@ -47,9 +46,17 @@ def honors():
     return render_template('honors.html', form=form, honors_data=all_honors_data, earned_honors=earned_honors)
     
 
-@app.route('/medals')
+@app.route('/medals', methods=["GET", "POST"])
 def medals():
-    return render_template('medals.html')
+    all_medals_data = get_all_medals()
+    earned_medals = get_earned_medals()
+    form=medalSelectField()
+    form.medal_ID.choices=select_field_medal_data()
+    if request.method == "POST":
+        results = request.form
+        add_medal(results["medal_ID"])
+        return redirect(url_for('home'))
+    return render_template('medals.html', form=form, medals_data=all_medals_data, earned_medals=earned_medals)
 
 @app.route('/run_reset_database')
 def run_reset_database():

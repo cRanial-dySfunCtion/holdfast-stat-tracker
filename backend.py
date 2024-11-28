@@ -50,6 +50,16 @@ def add_honor(honor_ID):
     conn.commit()
 
 
+def add_medal(medal_ID):
+    conn = sqlite3.connect(database_name)
+    c = conn.cursor()
+    date = datetime.date.today()
+    c.execute("""insert into earned_medals (earned_medal_ID, date)
+    values (?, ?);
+    """, (medal_ID, date))
+    conn.commit()
+
+
 def reset_database():
     os.remove(database_name)
     file_check()
@@ -153,10 +163,7 @@ def get_all_honors():
     conn.close()
     return honors_data
 
-
-
-
-def get_honors_data():
+def select_field_honor_data():
     conn = sqlite3.connect('holdfast.db')
     cursor = conn.cursor()
     cursor.execute("SELECT honor_ID, name FROM honors WHERE honor_ID NOT IN (SELECT earned_honor_ID FROM earned_honors)")
@@ -165,7 +172,41 @@ def get_honors_data():
     return honors_data
 
 
-class SimpleForm(FlaskForm):
+class honorSelectField(FlaskForm):
     submit = SubmitField("Enter")
 
     honor_ID = SelectField(u"Earned Honor")
+
+
+def get_earned_medals():
+    conn = sqlite3.connect('holdfast.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT earned_medal_ID FROM earned_medals")
+    results = cursor.fetchall()
+    conn.close()
+    earned_medals = []
+    for medal in results:
+        earned_medals.append(medal[0])
+    return earned_medals
+
+def get_all_medals():
+    conn = sqlite3.connect('holdfast.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM medals")
+    medals_data = cursor.fetchall()
+    conn.close()
+    return medals_data
+
+def select_field_medal_data():
+    conn = sqlite3.connect('holdfast.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT medal_ID, name FROM medals WHERE medal_ID NOT IN (SELECT earned_medal_ID FROM earned_medals)")
+    medals_data = cursor.fetchall()
+    conn.close()
+    return medals_data
+
+
+class medalSelectField(FlaskForm):
+    submit = SubmitField("Enter")
+
+    medal_ID = SelectField(u"Earned Medal")

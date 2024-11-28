@@ -3,30 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Honors</title>
+    <style>
+        .earned { 
+            background-color: greenyellow;
+        }
+        .not_earned { 
+            background-color: red;
+        }
+    </style>
 </head>
 <body>
-    <h1>Medals</h1>
-    <p>number of games played: {{ count }}</p>
+    <h1>Honors</h1>
 
-    <h1>Submit Information</h1>
-    <form method="POST">
-        <label for="role">Role:</label>
-        <input type="text" id="role" name="role" required><br><br>
-        
-        <label for="kills">Kills:</label>
-        <input type="number" id="kills" name="kills" required><br><br>
-        
-        <button type="submit">Submit</button>
+    <!-- Form Section -->
+    <form method="POST" action="{{ url_for('medals') }}">
+        <div>
+            {{ form.medal_ID.label }}
+            {{ form.medal_ID }}
+        </div>
+        <div>
+            {{ form.submit() }}
+        </div>
     </form>
 
+    <!-- Table Section -->
+    <h2>Medals Table</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop through honors_data and display each row -->
+            {% for medal in medals_data %}
+                <tr class="{{ 'earned' if medal[0] in earned_medals else 'not_earned' }}">
+                    <td>{{ medal[0] }}</td>  <!-- ID -->
+                    <td>{{ medal[1] }}</td>  <!-- Name -->
+                    <td>{{ medal[2] }}</td>  <!-- Description -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
+    <br>
     <a href="{{ url_for('home') }}"><button>Go home</button></a>
     <br>
     <a href="{{ url_for('honors') }}"><button>View Honors</button></a>
-    <br>
-
-
 </body>
 </html>
-
