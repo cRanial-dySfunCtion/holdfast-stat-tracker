@@ -11,7 +11,7 @@ def initialize_session():
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-    count = row_count()
+    count = row_count_games()
     if request.method == "POST":
         print(request.form)
         if "role" in request.form and "kills" in request.form:
@@ -36,8 +36,8 @@ def page2():
 def page3():
     return render_template('page3.html')
 
-@app.route('/reset_database')
-def reset_database():
+@app.route('/run_reset_database')
+def run_reset_database():
     reset_database()
     return redirect(url_for('home'))
 
