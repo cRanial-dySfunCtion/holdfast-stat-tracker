@@ -3,30 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Honors</title>
+    <style>
+        .earned { 
+            background-color: greenyellow;
+        }
+        .not_earned { 
+            background-color: red;
+        }
+    </style>
 </head>
 <body>
     <h1>Honors</h1>
-    <p>number of games played: {{ count }}</p>
 
-    <h1>Submit Information</h1>
-    <form method="POST">
-        <label for="role">Role:</label>
-        <input type="text" id="role" name="role" required><br><br>
-        
-        <label for="kills">Kills:</label>
-        <input type="number" id="kills" name="kills" required><br><br>
-        
-        <button type="submit">Submit</button>
+    <!-- Form Section -->
+    <form method="POST" action="{{ url_for('honors') }}">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.name.label }}
+            {{ form.name }}
+        </div>
+        <div>
+            {{ form.language.label }}
+            {{ form.language }}
+        </div>
+        <div>
+            {{ form.submit() }}
+        </div>
     </form>
 
+    <!-- Table Section -->
+    <h2>Honors Table</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop through honors_data and display each row -->
+            {% for honor in honors_data %}
+                <tr class="{{ 'earned' if honor[0] in [1, 3, 4] else 'not_earned' }}">
+                    <td>{{ honor[0] }}</td>  <!-- ID -->
+                    <td>{{ honor[1] }}</td>  <!-- Name -->
+                    <td>{{ honor[2] }}</td>  <!-- Description -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
+    <br>
     <a href="{{ url_for('home') }}"><button>Go home</button></a>
     <br>
     <a href="{{ url_for('medals') }}"><button>View Medals</button></a>
-    <br>
-
-
 </body>
 </html>
-

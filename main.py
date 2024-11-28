@@ -1,5 +1,7 @@
 from flask import Flask, render_template, url_for, redirect, request
 from backend import *
+from test import SimpleForm
+import sqlite3
 file_check()
 
 app = Flask(__name__)
@@ -24,12 +26,24 @@ def home():
         
         print("updated")
         return render_template('home.html', count=count+1)
-        
-    return render_template('home.html', count=count)
+    else:
+        return render_template('home.html', count=count)
 
-@app.route('/honors')
+@app.route('/honors', methods=["GET", "POST"])
 def honors():
-    return render_template('honors.html')
+    conn = sqlite3.connect('holdfast.db')  # Replace with your database file
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM honors")
+    honors_data = cursor.fetchall()
+    conn.close()
+    form=SimpleForm()
+    if request.method == "POST":
+        results = request.form
+        print(results)
+        return redirect(url_for('home'))
+    
+    return render_template('honors.html', form=form, honors_data=honors_data)
+    
 
 @app.route('/medals')
 def medals():

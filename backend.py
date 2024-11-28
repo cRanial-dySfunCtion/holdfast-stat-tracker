@@ -58,10 +58,10 @@ def init_honors():
                 honor_name = ""
                 mode = True
             elif mode:
-                description = line
+                description = line.strip()
                 mode = False
             else:
-                honor_name = line    
+                honor_name = line.strip()
                 ID = row_count_honors() + 1
                 c.execute("""insert into honors (honor_ID, name, description)
                 values (?, ?, ?);
@@ -82,17 +82,15 @@ def init_medals():
                 medal_name = ""
                 mode = True
             elif mode:
-                description = line
+                description = line.strip()
                 mode = False
             else:
-                medal_name = line    
+                medal_name = line.strip()
                 ID = row_count_medals() + 1
                 c.execute("""insert into medals (medal_ID, name, description)
                 values (?, ?, ?);
                 """, (ID, medal_name, description))
                 conn.commit()
-
-
 
 
 def file_check():
@@ -127,3 +125,5 @@ def file_check():
                 earned_honor_ID INTEGER, 
                 date TEXT
                 )""")
+
+
