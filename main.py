@@ -23,18 +23,17 @@ def home():
             return "Missing form data", 400  # Returns an error message to the user
         
         print("updated")
-        return render_template('home.html', count=count+1, updated = True)
+        return render_template('home.html', count=count+1)
         
-    print("nothing")
-    return render_template('home.html', count=count, updated = None)
+    return render_template('home.html', count=count)
 
-@app.route('/page2')
-def page2():
-    return render_template('page2.html')
+@app.route('/honors')
+def honors():
+    return render_template('honors.html')
 
-@app.route('/page3')
-def page3():
-    return render_template('page3.html')
+@app.route('/medals')
+def medals():
+    return render_template('medals.html')
 
 @app.route('/run_reset_database')
 def run_reset_database():

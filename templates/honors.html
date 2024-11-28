@@ -6,7 +6,7 @@
     <title>Home</title>
 </head>
 <body>
-    <h1>Home Page</h1>
+    <h1>Honors</h1>
     <p>number of games played: {{ count }}</p>
 
     <h1>Submit Information</h1>
@@ -21,9 +21,7 @@
     </form>
 
 
-    <a href="{{ url_for('run_reset_database') }}"><button>reset</button></a>
-    <br>
-    <a href="{{ url_for('honors') }}"><button>View honors</button></a>
+    <a href="{{ url_for('home') }}"><button>Go home</button></a>
     <br>
     <a href="{{ url_for('medals') }}"><button>View Medals</button></a>
     <br>

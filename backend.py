@@ -41,6 +41,8 @@ def add_game_entry(role, kills):
 def reset_database():
     os.remove(database_name)
     file_check()
+    init_honors()
+    init_medals()
 
 
 
@@ -125,9 +127,3 @@ def file_check():
                 earned_honor_ID INTEGER, 
                 date TEXT
                 )""")
-
-
-
-reset_database()
-init_honors()
-init_medals()
