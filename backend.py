@@ -1,6 +1,9 @@
 import sqlite3
 import datetime
 import os
+
+from flask_wtf import FlaskForm
+from wtforms import SubmitField, SelectField
 database_name = "holdfast.db"
 script_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(script_dir)
@@ -37,14 +40,21 @@ def add_game_entry(role, kills):
     """, (ID, date, role, kills))
     conn.commit()
 
+def add_honor(honor_ID):
+    conn = sqlite3.connect(database_name)
+    c = conn.cursor()
+    date = datetime.date.today()
+    c.execute("""insert into earned_honors (earned_honor_ID, date)
+    values (?, ?);
+    """, (honor_ID, date))
+    conn.commit()
+
 
 def reset_database():
     os.remove(database_name)
     file_check()
     init_honors()
     init_medals()
-
-
 
 def init_honors():
     conn = sqlite3.connect(database_name)
@@ -68,8 +78,6 @@ def init_honors():
                 """, (ID, honor_name, description))
                 conn.commit()
 
-
-
 def init_medals():
     conn = sqlite3.connect(database_name)
     c = conn.cursor()
@@ -91,7 +99,6 @@ def init_medals():
                 values (?, ?, ?);
                 """, (ID, medal_name, description))
                 conn.commit()
-
 
 def file_check():
     if not os.path.exists(database_name):
@@ -127,3 +134,38 @@ def file_check():
                 )""")
 
 
+def get_earned_honors():
+    conn = sqlite3.connect('holdfast.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT earned_honor_ID FROM earned_honors")
+    results = cursor.fetchall()
+    conn.close()
+    earned_honors = []
+    for honor in results:
+        earned_honors.append(honor[0])
+    return earned_honors
+
+def get_all_honors():
+    conn = sqlite3.connect('holdfast.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM honors")
+    honors_data = cursor.fetchall()
+    conn.close()
+    return honors_data
+
+
+
+
+def get_honors_data():
+    conn = sqlite3.connect('holdfast.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT honor_ID, name FROM honors WHERE honor_ID NOT IN (SELECT earned_honor_ID FROM earned_honors)")
+    honors_data = cursor.fetchall()
+    conn.close()
+    return honors_data
+
+
+class SimpleForm(FlaskForm):
+    submit = SubmitField("Enter")
+
+    honor_ID = SelectField(u"Earned Honor")

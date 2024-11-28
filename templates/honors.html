@@ -18,14 +18,9 @@
 
     <!-- Form Section -->
     <form method="POST" action="{{ url_for('honors') }}">
-        {{ form.hidden_tag() }}
         <div>
-            {{ form.name.label }}
-            {{ form.name }}
-        </div>
-        <div>
-            {{ form.language.label }}
-            {{ form.language }}
+            {{ form.honor_ID.label }}
+            {{ form.honor_ID }}
         </div>
         <div>
             {{ form.submit() }}
@@ -45,7 +40,7 @@
         <tbody>
             <!-- Loop through honors_data and display each row -->
             {% for honor in honors_data %}
-                <tr class="{{ 'earned' if honor[0] in [1, 3, 4] else 'not_earned' }}">
+                <tr class="{{ 'earned' if honor[0] in earned_honors else 'not_earned' }}">
                     <td>{{ honor[0] }}</td>  <!-- ID -->
                     <td>{{ honor[1] }}</td>  <!-- Name -->
                     <td>{{ honor[2] }}</td>  <!-- Description -->
