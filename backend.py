@@ -142,6 +142,8 @@ def file_check():
                 earned_honor_ID INTEGER, 
                 date TEXT
                 )""")
+    init_honors()
+    init_medals()
 
 
 def get_earned_honors():
