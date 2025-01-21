@@ -70,7 +70,7 @@ def init_honors():
     conn = sqlite3.connect(database_name)
     c = conn.cursor()
 
-    mode = True  # True = description False = honor name
+    mode = True  # True = description         False = honor name
     with open("honors.txt", "r") as file:
         for line in file:
             if "\n" == line:
