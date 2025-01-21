@@ -77,10 +77,10 @@ def init_honors():
                 description = ""
                 honor_name = ""
                 mode = True
-            elif mode:
+            elif mode:  # if it is a description
                 description = line.strip()
                 mode = False
-            else:
+            else:  # if it is the name of an honor
                 honor_name = line.strip()
                 ID = row_count_honors() + 1
                 c.execute("""insert into honors (honor_ID, name, description)
